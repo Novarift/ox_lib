@@ -14,6 +14,16 @@
 
 ---@param data NotifyProps
 function lib.notify(data)
+    
+    data.position = data.position or 'center-right'
+    data.style = data.style or {
+        backgroundColor = '#141517',
+        color = '#C1C2C5',
+        ['.description'] = {
+          color = '#909296'
+        }
+    }
+
     SendNUIMessage({
         action = 'notify',
         data = data
