@@ -74,10 +74,16 @@ const SkillCheck: React.FC = () => {
       angle: -90 + getRandomAngle(120, 360 - offset),
       difficultyOffset: offset,
       difficulty: gameData,
-      key: randomKey,
+      keys: data.inputs?.map((input) => input.toLowerCase()),
+      key: randomKey.toLowerCase(),
     });
 
     setVisible(true);
+  });
+
+  useNuiEvent('skillCheckCancel', () => {
+    setVisible(false);
+    fetchNui('skillCheckOver', false);
   });
 
   const handleComplete = (success: boolean) => {
@@ -98,12 +104,13 @@ const SkillCheck: React.FC = () => {
       ? dataRef.current.inputs[Math.floor(Math.random() * dataRef.current.inputs.length)]
       : 'e';
     const offset = typeof data === 'object' ? data.areaSize : difficultyOffsets[data];
-    setSkillCheck({
+    setSkillCheck((prev) => ({
+      ...prev,
       angle: -90 + getRandomAngle(120, 360 - offset),
       difficultyOffset: offset,
       difficulty: data,
-      key,
-    });
+      key: key.toLowerCase(),
+    }));
   };
 
   return (
